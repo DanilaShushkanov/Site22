@@ -1,0 +1,63 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title – Сайт кафедры МОЭВМ</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+
+</head>
+<body>
+
+
+    <a href="/home" class="custom-logo-link" rel="home" itemprop="url">
+        <img src="~/Content/logo.png" class="custom-logo" alt="Кафедра МОЭВМ" itemprop="logo">
+    </a>
+    <div id="site-identity">
+        <p class="site-title"><a href="/home/index" rel="home">Кафедра Математического Обеспечения ЭВМ</a></p>
+
+        <p class="site-description">Девиз кафедры.</p>
+    </div>
+
+    <div class="navbar navbar-inverse" style="background-color: #3D3638;">
+        <div class="container">
+            <div class="navbar-header">
+
+
+
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav navbar-left">
+                    <li>@Html.ActionLink("Главная", "Index", "Home")</li>
+                    <li>@Html.ActionLink("История", "About", "Home")</li>
+                    <li>@Html.ActionLink("Контакты", "Contact", "Home")</li>
+                    <li>@Html.ActionLink("Новости", "News", "Home")</li>
+                    <li>@Html.ActionLink("Преподаватели", "FilteredBrowse", "Home")</li>
+
+                </ul>
+                @Html.Partial("_LoginPartial")
+            </div>
+        </div>
+    </div>
+
+    <div class="container body-content">
+        @RenderBody()
+
+
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+</body>
+
+
+</html>
+<hr />
+<footer>
+    <div class="col-md-offset-1">
+    <p><font size="2">&copy; M. Nanayev. Email: <a href="mailto:ankk@mail.ua">ankk@mail.ua</a> </font></p>
+        </div>
+</footer>

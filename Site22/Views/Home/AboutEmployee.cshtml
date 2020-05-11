@@ -1,0 +1,54 @@
+﻿@{ ViewBag.Title = "Информация о сотрудниках";
+    Layout = "~/Views/Shared/_Layout.cshtml"; }
+<h4>Выбрано:</h4>
+<form method="post" action="">
+    <input type="hidden" value="@ViewBag.ID" name="EmplyeeId" />    
+   <div class="col-md-8">
+       <table class="table">
+           <tr>
+               <td><p>Преподаватель: </p></td>
+               <td><p>@ViewBag.Name</p></td>
+           </tr>
+           <tr>
+               <td>Должность: </td>
+               <td> @ViewBag.Position </td>
+           </tr>
+           <tr>
+               <td>Ученая степень: </td>
+               <td> @ViewBag.Academ </td>
+           </tr>
+           <tr>
+               <td><p>Темы курсовых работ: </p></td>
+               <td>
+                   <p>
+                       @foreach (var std in ViewData["Thems"] as IList<Them>)
+                       {
+                           <li>
+                               @std.Name
+                           </li>
+                       }
+                   </p>
+               </td>
+           </tr>
+           <tr>
+               <td><p>Научные работы: </p></td>
+               <td>
+                   <p>
+                       @foreach (var std in ViewData["Scient"] as IList<Scientific_works>)
+                       {
+                           <li>
+                               @std.Name
+                           </li>
+                       }
+                   </p>
+               </td>
+           </tr>
+           <tr>
+               <td>Информация: </td>
+               <td> @ViewBag.Description </td>
+           </tr>
+
+
+       </table>
+       </div>
+</form> 

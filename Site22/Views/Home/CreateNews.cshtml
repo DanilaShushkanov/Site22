@@ -1,0 +1,39 @@
+﻿@model News
+
+
+@{ ViewBag.Title = "Добавление сотрудника";
+    Layout = "~/Views/Shared/_Layout.cshtml"; }
+
+@using (Html.BeginForm())
+{
+
+    <h1> Добавление новостей</h1>
+    <div class="col-md-8">
+
+        <table class="table">
+
+            <tr>
+
+
+                <td><p> @Html.HiddenFor(model => model.ID, htmlAttributes: new { @class = "control-label col-md-2" })</p></td>
+            </tr>
+            <tr>
+
+                <td><p>Название статьи: </p></td>
+                <td><p>@Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })</p></td>
+            </tr>
+            <tr>
+                <td>Текст статьи: </td>
+                <td> @Html.EditorFor(model => model.Text, new { htmlAttributes = new { @class = "form-control" } }) </td>
+            </tr>
+            <tr>
+                <td>Дата: </td>
+                <td> @Html.EditorFor(model => model.Date, new { htmlAttributes = new { @class = "form-control" } }) </td>
+            </tr>
+
+
+        </table>
+        <input type="submit" value="Сохранить" />
+        @Html.ActionLink("Отменить изменения и вернуться на главную", "Index")
+    </div>
+}

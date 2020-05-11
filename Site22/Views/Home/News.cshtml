@@ -1,0 +1,189 @@
+﻿@model Site22.Models.NewsHelp
+@using Site22.Models
+@{ ViewBag.Title = "Новости кафедры"; Layout = "~/Views/Shared/_Layout.cshtml"; }
+
+
+<html lang="ru">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <!-- Bootstrap -->
+    <link href="/examples/vendors/bootstrap-3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        
+       
+        .wp-block.property.list {
+            border: 1px solid #e0eded;
+            margin-bottom: 15px !important;
+        }
+
+        .wp-block {
+            margin: 0 0 15px 0;
+            -webkit-transition: all .3s linear;
+            transition: all .3s linear;
+            position: relative;
+            cursor: default;
+            border-radius: 2px;
+        }
+
+            .wp-block.property.list {
+                padding: 15px 15px 0 15px;
+            }
+
+            .wp-block.property.list {
+                margin: 0;
+                padding: 0;
+                font-size: 16px;
+                font-weight: 400;
+            }
+
+            .wp-block .wp-block-body {
+                padding: 15px;
+            }
+
+            .wp-block.property.list .wp-block-img {
+                display: table-cell;
+                width: 250px;
+            }
+
+                .wp-block.property.list .wp-block-img img {
+                    width: 100%;
+                }
+
+            .wp-block.property.list .wp-block-content .content-title {
+                font-size: 20px;
+                color: #3498db;
+                margin-bottom: 5px;
+            }
+
+            .wp-block.property.list .wp-block-body .wp-block-content {
+                display: table-cell;
+                vertical-align: top;
+                padding-left: 15px;
+            }
+
+            .wp-block.property.list .wp-block-content .description {
+                padding-bottom: 10px;
+                border-bottom: 1px solid #e0eded;
+            }
+
+            .wp-block.property.list .wp-block-footer ul.aux-info {
+                width: 100%;
+                margin: 0;
+                padding: 0;
+                display: block;
+                background: #fcfcfc;
+                border-top: 1px solid #e0eded;
+            }
+
+                .wp-block.property.list .wp-block-footer ul.aux-info li {
+                    display: table-cell;
+                    padding: 10px 15px;
+                    vertical-align: middle;
+                    border-right: 1px solid #e0eded;
+                }
+
+        .ribbon.base {
+            background: #3498db;
+            color: #fff;
+            border-right: 5px solid #8bc4ea;
+        }
+
+        .ribbon {
+            position: absolute;
+            top: 20px;
+            right: -5px;
+            padding: 15px;
+        }
+
+        .base {
+            background: #3498db;
+            color: #fff !important;
+        }
+
+        .ribbon:before, .ribbon:after {
+            content: '';
+            position: absolute;
+            left: -9px;
+            border-left: 10px solid transparent;
+        }
+
+        .ribbon:before {
+            top: 0;
+        }
+
+        .ribbon.base:before {
+            border-top: 27px solid #3498db;
+        }
+
+        .ribbon.base:after {
+            border-bottom: 27px solid #3498db;
+        }
+
+        .ribbon:after {
+            bottom: 0;
+        }
+        
+    </style>
+</head>
+<body>
+    
+    
+        <div class="col-xs-12 col-md-8">
+            <div class="container">
+                <h1 class="h3 text-center page-header">Просмотр новостей</h1>
+            </div>
+            @foreach (var item in Model.news)
+            {
+                <div class="container">
+                    <div class="row">
+
+                        <div class="wp-block property list">
+                            <div class="wp-block-body">
+                                @*<div class="wp-block-img">
+                                        <a href="#">
+                                            <img src="/examples/images/image1-800-530.jpg" alt="">
+                                        </a>
+                                    </div>**@
+                                <div class="wp-block-content">
+                                    <small>
+                                        <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span> @Html.DisplayFor(modelItem => item.Date)
+                                    </small>
+                                    <h4 class="content-title">@Html.DisplayFor(modelItem => item.Name)</h4>
+                                    <p class="description">@Html.DisplayFor(modelItem => item.Text)</p>
+
+
+
+                                    <span class="pull-md-right">
+                                        <span class="capacity">
+                                            <i class="fa fa-user"></i>  <span class="glyphicon glyphicon-user"> </span>  @Html.DisplayFor(modelItem => item.Employee.Name)
+                                        </span>
+                                    </span>
+                                </div>
+                            </div>
+
+                        </div>
+
+
+                    </div>
+                </div>
+                
+            }
+            <div class="btn-group">
+                @Html.PageLinks(Model.PageInfo, x => Url.Action("News",
+                new { page = x
+                     }))
+            </div>
+        </div>
+        
+
+        <!-- jQuery -->
+        <script src="/examples/vendors/jquery/jquery-3.2.1.min.js"></script>
+        <!-- Bootstrap -->
+        <script src="/examples/vendors/bootstrap-3.3.7/js/bootstrap.min.js"></script>
+
+</body>
+</html>
+

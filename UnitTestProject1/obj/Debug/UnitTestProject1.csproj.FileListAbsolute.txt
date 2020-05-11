@@ -1,0 +1,17 @@
+F:\Учеба\ASP.net\Site22\UnitTestProject1\bin\Debug\Microsoft.VisualStudio.TestPlatform.MSTest.TestAdapter.dll
+F:\Учеба\ASP.net\Site22\UnitTestProject1\bin\Debug\Microsoft.VisualStudio.TestPlatform.MSTestAdapter.PlatformServices.Interface.dll
+F:\Учеба\ASP.net\Site22\UnitTestProject1\bin\Debug\Microsoft.VisualStudio.TestPlatform.MSTestAdapter.PlatformServices.dll
+F:\Учеба\ASP.net\Site22\UnitTestProject1\bin\Debug\ru\Microsoft.VisualStudio.TestPlatform.MSTest.TestAdapter.resources.dll
+F:\Учеба\ASP.net\Site22\UnitTestProject1\bin\Debug\ru\Microsoft.VisualStudio.TestPlatform.MSTestAdapter.PlatformServices.resources.dll
+F:\Учеба\ASP.net\Site22\UnitTestProject1\bin\Debug\ru\Microsoft.VisualStudio.TestPlatform.TestFramework.resources.dll
+F:\Учеба\ASP.net\Site22\UnitTestProject1\bin\Debug\UnitTestProject1.dll
+F:\Учеба\ASP.net\Site22\UnitTestProject1\bin\Debug\UnitTestProject1.pdb
+F:\Учеба\ASP.net\Site22\UnitTestProject1\bin\Debug\Microsoft.VisualStudio.TestPlatform.TestFramework.dll
+F:\Учеба\ASP.net\Site22\UnitTestProject1\bin\Debug\Microsoft.VisualStudio.TestPlatform.TestFramework.Extensions.dll
+F:\Учеба\ASP.net\Site22\UnitTestProject1\bin\Debug\Microsoft.VisualStudio.TestPlatform.TestFramework.xml
+F:\Учеба\ASP.net\Site22\UnitTestProject1\bin\Debug\Microsoft.VisualStudio.TestPlatform.TestFramework.Extensions.xml
+F:\Учеба\ASP.net\Site22\UnitTestProject1\obj\Debug\UnitTestProject1.csprojAssemblyReference.cache
+F:\Учеба\ASP.net\Site22\UnitTestProject1\obj\Debug\UnitTestProject1.csproj.CoreCompileInputs.cache
+F:\Учеба\ASP.net\Site22\UnitTestProject1\obj\Debug\UnitTestProject1.csproj.CopyComplete
+F:\Учеба\ASP.net\Site22\UnitTestProject1\obj\Debug\UnitTestProject1.dll
+F:\Учеба\ASP.net\Site22\UnitTestProject1\obj\Debug\UnitTestProject1.pdb

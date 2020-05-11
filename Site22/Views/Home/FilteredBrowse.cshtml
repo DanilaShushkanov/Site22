@@ -1,0 +1,54 @@
+﻿@model Site22.Models.FilteredWorks
+@using Site22.Models
+
+@{ ViewBag.Title = "Сотрудники"; Layout = "~/Views/Shared/_Layout.cshtml"; }
+<h2>Преподаватели</h2>
+<form method="get">
+    <div class="form-inline">
+        <label class="control-label"> Ученая степень: </label>
+        @Html.DropDownList("Academ", Model.Scien as SelectList, htmlAttributes: new { @class = "form-control" })
+        <label class="control-label">Дожность: </label>
+        @Html.DropDownList("Position", Model.Positions as SelectList, htmlAttributes: new { @class = "form-control" })
+        <input type="submit" value="Фильтр" class="btn btn-default" />       
+       
+    </div>
+</form> 
+
+<div class="col-xs-12 col-md-8 ">
+    <br>
+    <table class="table">
+        <tr>
+            <th> Преподаватель </th>
+            <th> Должность </th>
+            <th> Учёная степень </th>
+        </tr>
+
+
+        @foreach (var item in Model.Employees)
+        {
+            <tr>
+                <td>    @Html.DisplayFor(modelItem => item.Name)         </td>
+                <td>    @Html.DisplayFor(modelItem => item.Position)    </td>
+                <td>    @Html.DisplayFor(modelItem => item.Academic_degree) </td>
+                <td><p><a href="/home/aboutemployee/@item.ID">Подробнее</a></p></td>
+                @if (Model.isAdmin)
+                {
+                    <td><p><a href="/home/EditInfo/@item.ID">Изменить</a></p></td>
+                    <td><p><a href="/home/Delete/@item.ID">Удалить</a></p></td>
+                }
+
+            </tr>
+        }
+    </table>
+    @if (Model.isAdmin)
+    {
+        <a class="btn btn-default" href="/home/Create/" role="button">Добавить сотрудника</a>
+    }
+
+    <div class="btn-group">
+        @Html.PageLinks(Model.PageInfo, x => Url.Action("FilteredBrowse",
+        new { page = x, Academ= Model.SelectedAcadem_degree,
+            Position = Model.SelectedPosition
+             }))
+    </div>
+</div>

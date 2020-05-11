@@ -1,0 +1,10 @@
+﻿@{ ViewBag.Title = "Администраторская панель";
+    Layout = "~/Views/Shared/_Layout.cshtml"; }
+<div class="col-md-8">
+    <ul>
+    <li>@Html.ActionLink("Добавить сотрудника", "create")</li>
+    <li>@Html.ActionLink("Редактировать информацию о сотрудникe", "EditInfo")</li>
+    <li> @Html.ActionLink("Удалить сотрудника", "delete")</li>
+
+    </ul>
+</div>

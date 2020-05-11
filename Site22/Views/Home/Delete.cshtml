@@ -1,0 +1,43 @@
+﻿@model Employee
+
+
+@{ ViewBag.Title = "Добавление сотрудника";
+    Layout = "~/Views/Shared/_Layout.cshtml"; }
+
+@using (Html.BeginForm())
+{
+
+    <h1> Удаление сотрудника </h1>
+    <div class="col-md-8">
+
+        <table class="table">
+
+            <tr>
+
+
+                <td><p> @Html.HiddenFor(model => model.ID, htmlAttributes: new { @class = "control-label col-md-2" })</p></td>
+            </tr>
+            <tr>
+
+                <td><p>ФИО: </p></td>
+                <td><p>@Html.DisplayFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })</p></td>
+            </tr>
+            <tr>
+                <td>Должность: </td>
+                <td> @Html.DisplayFor(model => model.Position, new { htmlAttributes = new { @class = "form-control" } }) </td>
+            </tr>
+            <tr>
+                <td>Ученая степень: </td>
+                <td> @Html.DisplayFor(model => model.Academic_degree, new { htmlAttributes = new { @class = "form-control" } }) </td>
+            </tr>
+            <tr>
+                <td>Информация: </td>
+                <td> @Html.DisplayFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } }) </td>
+            </tr>
+
+
+        </table>
+        <input type="submit" value="Удалить" />
+        @Html.ActionLink("Отменить изменения и вернуться к списку", "Index")
+    </div>
+}
