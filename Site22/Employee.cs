@@ -19,6 +19,9 @@ namespace Site22
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int ID { get; set; }
 
+        
+        public int? WorkingTime { get; set; }
+
         [Required]
         [StringLength(35)]
         public string Name { get; set; }

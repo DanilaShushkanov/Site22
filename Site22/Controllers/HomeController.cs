@@ -154,6 +154,7 @@ namespace Site22.Controllers
             ViewBag.Academ = e.Academic_degree;
             ViewBag.Position = e.Position;
             ViewBag.Description = e.Description;
+            ViewBag.Time = e.WorkingTime;
 
             return View();
         }
