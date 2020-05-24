@@ -9,6 +9,15 @@ using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using System.Data.Entity;
+using ClosedXML.Excel;
+using System.Globalization;
+using System.Drawing;
+using DocumentFormat.OpenXml.Drawing;
+using System.Data;
+using System.Web.UI.WebControls;
+using Microsoft.Owin.Security.OAuth;
+using DocumentFormat.OpenXml.Office.CustomUI;
+using DocumentFormat.OpenXml.Math;
 
 namespace Site22.Controllers
 {
@@ -212,6 +221,134 @@ namespace Site22.Controllers
                 PageInfo = pageInfo,
             };
             return View(fw);
+        }
+
+       
+
+        [HttpGet]
+        public ActionResult DownloadFile()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult Import(HttpPostedFileBase fileExcel)
+        {
+            using (XLWorkbook workbook = new XLWorkbook(fileExcel.InputStream, XLEventTracking.Disabled))
+            {
+                IXLWorksheet worksheet = workbook.Worksheet("План");
+                int count = 0;
+
+                int semestrCount = worksheet.Row(2).CellsUsed().Count();
+                int VidyControlya = 6;
+
+                Dictionary<String, List<Semestr>> Subject = new Dictionary<string, List<Semestr>>();
+                int startPosition = 15;
+
+                foreach (IXLRow row in worksheet.RowsUsed())
+                {
+                    if (/*row.Cell(1).Value.ToString() == "+" && */row.Cell("BL").Value.ToString().Contains("0605"))
+                    {
+                        count++;
+                        List<Semestr> Clocks = new List<Semestr>();
+                        String SubName = row.Cell(3).Value.ToString();
+                        Semestr semestr = new Semestr();
+                        semestr.Clock = new float[6];
+                        for (int i = 0; i < semestrCount * VidyControlya; i++)
+                        {
+
+
+                            if (!row.Cell(i + startPosition).IsEmpty())
+                            {
+                                semestr.number = i / 6 + 1;
+                                while (semestr.number == i / 6 + 1)
+                                {
+                                    String temp = row.Cell(i + startPosition).Value.ToString();
+                                    if (temp == "")
+                                        semestr.Clock[i % 6] = 0;
+                                    else
+                                        semestr.Clock[i % 6] = float.Parse(temp, CultureInfo.InvariantCulture);
+                                    i++;
+                                }
+                                i--;
+                                Clocks.Add(semestr);
+                                semestr = new Semestr();
+                                semestr.Clock = new float[6];
+
+                            }
+
+
+
+                        }
+                        Subject.Add(SubName, Clocks);
+
+                    }
+                    /*foreach(var item in Subject)
+                    {
+                        item.
+                    }*/
+
+                }
+                
+                foreach(var item in Subject)
+                {
+                    var temp = db.Subjects.Where(x => x.Name == item.Key).SingleOrDefault();
+                    if (temp == null)
+                    {
+                        Subjects subjects = new Subjects();
+                        subjects.Name = item.Key;
+                        subjects.ID_employee = new Random().Next(1, 6);
+                        subjects.Coef = Convert.ToSingle(Math.Round( new Random().NextDouble() * (1-0.1)+0.1, 1));
+                        //int Last_ID - db.Subjects.Select(e=>e.ID).OrderByDescending(i)
+                        var temp1 = 1;
+                        try
+                        {
+                            db.Subjects.Add(subjects);
+                            db.SaveChanges();
+                            ViewBag.Subjects += subjects;
+                        }
+                        catch(Exception c)
+                        {
+
+                        }
+
+                    }
+                   
+                }
+                foreach (var item in Subject)
+                {
+                    var employes4thissub = db.Subjects.Where(n => n.Name == item.Key).OrderByDescending(z=>z.Coef).ToList();
+                    if (employes4thissub != null)
+                    {
+                        foreach (var employee in employes4thissub)
+                        {
+                            float allTime = 0;
+                            float time = 0;
+                            Single.TryParse(db.Employees.Find(employee.ID_employee).WorkingTime.ToString() , out time);
+                            foreach (var sem in item.Value)
+                                allTime += sem.Clock.Sum();
+
+                            if (allTime > time)
+                            {
+                                var timeforemp = time;
+                                allTime -= time;
+                            }
+
+                        }
+                    }
+
+                
+                
+                }
+
+
+
+
+                    return View(Subject);
+            }
+
+            
+
         }
 
         //вспомогательная функция

@@ -1,0 +1,23 @@
+﻿
+@{
+    string strTitle = "Таблицы с результатом";
+    ViewBag.Title = strTitle;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Import</h2>
+
+<div>
+    @using (Html.BeginForm("Import", "Home", FormMethod.Post, new { enctype = "multipart/form-data", id = "frm-excel" }))
+    {
+        <div>
+            Загрузите Excel-файл:
+            <input type="file" name="fileExcel" id="fileExcel" />
+            <div>
+                <input type="submit" value="Загрузить" />
+            </div>
+        </div>
+    }
+</div>
+
+

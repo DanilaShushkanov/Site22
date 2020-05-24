@@ -16,6 +16,7 @@ namespace Site22
         public virtual DbSet<News> News { get; set; }
         public virtual DbSet<Scientific_works> Scientific_works { get; set; }
         public virtual DbSet<Them> Thems { get; set; }
+        public virtual DbSet<Subjects> Subjects { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -40,6 +41,11 @@ namespace Site22
                 .HasMany(e => e.Thems)
                 .WithOptional(e => e.Employee)
                 .HasForeignKey(e => e.ID_Employee);
+
+            modelBuilder.Entity<Employee>()
+                .HasMany(e => e.Subjects)
+                .WithOptional(e => e.Employee)
+                .HasForeignKey(e => e.ID_employee);
 
             modelBuilder.Entity<Employee>()
                 .HasMany(e => e.News)

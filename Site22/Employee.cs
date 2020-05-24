@@ -14,6 +14,8 @@ namespace Site22
             Scientific_works = new HashSet<Scientific_works>();
             Thems = new HashSet<Them>();
             News = new HashSet<News>();
+            Subjects = new HashSet<Subjects>();
+
         }
 
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
@@ -43,5 +45,8 @@ namespace Site22
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<News> News { get; set; }
+        
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Subjects> Subjects { get; set; }
     }
 }

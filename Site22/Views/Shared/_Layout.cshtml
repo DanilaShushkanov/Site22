@@ -35,7 +35,12 @@
                     <li>@Html.ActionLink("Контакты", "Contact", "Home")</li>
                     <li>@Html.ActionLink("Новости", "News", "Home")</li>
                     <li>@Html.ActionLink("Преподаватели", "FilteredBrowse", "Home")</li>
-
+                    @if (Request.IsAuthenticated)
+                    {
+                        <li>@Html.ActionLink("Личный кабинет", "Index", "Manage")</li>
+                      
+                        }
+                    }
                 </ul>
                 @Html.Partial("_LoginPartial")
             </div>
