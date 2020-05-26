@@ -1,5 +1,4 @@
-﻿@using Site22.Models
-@model Dictionary<String, List<Semestr>>
+﻿@using Site22.Models;
 @{
     string strTitle = "Таблицы с результатом";
     ViewBag.Title = strTitle;
@@ -8,50 +7,16 @@
 
 <h2>@strTitle</h2>
 
-<div>
-    
-    <div>
-        
 
-        
-        <table>
-            <thead>
-
-
-                @foreach (var item in Model)
-                {
-                    <tr>
-
-                        <td>
-                            Предмет:  @item.Key
-                        </td>
-                    </tr>
-
-                
-                    foreach (var sub in item.Value)
-                    {
-                        <tr> Семестры:
-                            <td>  @sub.number</td>
-                        </tr>
-
-                        foreach (var arr in sub.Clock)
-                        {   
-                            <tr>
-
-                                <td>@arr.ToString(); </td>
-                            </tr>
-                        }
+<ul>
+    @foreach (var item in Model)
+    {
+        <p>@item.EmpName;</p>
+        <p>@item.subject;</p>
+        <li>@item.hoursForLect;</li>
+        <li>@item.hoursForPractice;</li>
+        <li>@item.hoursForLab;</li>
+    }
+</ul>
 
 
-
-                     }
-
-                 }
-
-                </thead>
-
-            </table>
-       
-    
-    </div>
-</div>
