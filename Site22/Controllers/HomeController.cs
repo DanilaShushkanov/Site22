@@ -393,10 +393,7 @@ namespace Site22.Controllers
                                             db.Entry(Employee123).State = EntityState.Modified;
                                             db.SaveChanges();
                                             empAndHours.Add(empAndHoursRes);
-                                            if (countWorkers == employes4thissub.Count)
-                                            {
-                                                ViewData[employes4thissub.Select(m => m.Name).SingleOrDefault()] = " " + timeForLab.ToString() + " " + timeForLect.ToString() + " " + timeForPract.ToString();
-                                            }
+                                            
 
                                         }
                                         else
@@ -424,7 +421,11 @@ namespace Site22.Controllers
                                 Employee Employee12 = db.Employees.Where(e => e.ID == employee.ID_employee).Where(m => m.WorkingTime > 0).SingleOrDefault();
                                 
                                 if (Employee12 == null)
+                                {
+                                    ViewBag.Bad += employes4thissub.Select(m => m.Name).SingleOrDefault().ToString() + " - не нашлось преподавателя"  + "\n";
                                     break;
+                                }
+                                
                                 empAndHoursRes.subject = item.Key;
                                 empAndHoursRes.EmpName = Employee12.Name;
                                 foreach (var sem in item.Value)
@@ -454,10 +455,7 @@ namespace Site22.Controllers
                                         db.Entry(Employee12).State = EntityState.Modified;
                                         db.SaveChanges();
                                         empAndHours.Add(empAndHoursRes);
-                                        if (countWorkers == employes4thissub.Count)
-                                        {
-                                            ViewData[employes4thissub.Select(m => m.Name).SingleOrDefault()] = " " + timeForLab.ToString() + " " + timeForLect.ToString() + " " + timeForPract.ToString();
-                                        }
+                                        
 
                                     }
                                     else
@@ -473,6 +471,10 @@ namespace Site22.Controllers
                                     }
 
                                 }
+                            }
+                            if (countWorkers == employes4thissub.Count)
+                            {
+                                ViewBag.Bad += ("Не распределен " + employes4thissub.Select(m => m.Name).SingleOrDefault().ToString() + " " + timeForLab.ToString() + " " + timeForLect.ToString() + " " + timeForPract.ToString()+ "\n" );
                             }
 
                         }
