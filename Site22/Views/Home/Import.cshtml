@@ -8,17 +8,55 @@
 <h2>@strTitle</h2>
 
 
-<ul>
-    @foreach (var item in Model)
-    {
-        <p>@item.EmpName;</p>
-        <p>@item.subject;</p>
-        <li>@item.hoursForLect;</li>
-        <li>@item.hoursForPractice;</li>
-        <li>@item.hoursForLab;</li>
-    }
-</ul>
 
-@ViewBag.Bad;
+
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">Имя</th>
+            <th scope="col">Предмет</th>
+            <th scope="col">Часы</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+
+                <td>@item.EmpName;</td>
+                <td>@item.subject;</td>
+                <td>
+                    Часы Лекций
+                    <input type="number" class="form-control" size="80" width="80" id="pwd" value="@item.hoursForLect">
+                    Часы практики
+                    <input type="number" class="form-control" size="80" width="80" id="pwd" value="@item.hoursForPractic">
+                    Часы лаб
+                    <input type="number" class="form-control" size="80" width="80" id="pwd" value="@item.hoursForLab"> 
+                </td>
+
+            </tr>
+        }
+    </tbody>
+</table>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">Ошибки</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in ViewBag.Bad)
+        {
+            <tr>
+
+                <td>@item</td>
+
+            </tr>
+        }
+    </tbody>
+</table>
+
+
 
 

@@ -17,6 +17,7 @@ using System.Web.UI.WebControls;
 using Microsoft.Owin.Security.OAuth;
 using DocumentFormat.OpenXml.Office.CustomUI;
 using DocumentFormat.OpenXml.Math;
+using DocumentFormat.OpenXml.Office2010.Excel;
 
 namespace Site22.Controllers
 {
@@ -239,7 +240,7 @@ namespace Site22.Controllers
             using (XLWorkbook workbook = new XLWorkbook(fileExcel.InputStream, XLEventTracking.Disabled))
             {
 
-
+                List<String> Errors = new List<string>();
                 List <EmpAndHours> empAndHours = new List<EmpAndHours>();
                 IXLWorksheet worksheet = workbook.Worksheet("План");
                 int count = 0;
@@ -322,90 +323,75 @@ namespace Site22.Controllers
                 foreach (var item in Subject)
                 {
                     List<Subjects> employes4thissub = new List<Subjects>() ;
-                    EmpAndHours empAndHoursRes = new EmpAndHours();
-                    using (ThemesContext db = new ThemesContext())
-                    {
-                        employes4thissub = db.Subjects.Where(n => n.Name == item.Key).OrderByDescending(z => z.Coef).ToList();
-                    }
-                    if (employes4thissub != null)
+                    
+                    employes4thissub = db.Subjects.Where(n => n.Name == item.Key).OrderByDescending(z => z.Coef).ToList();
+                    
+                    if (employes4thissub.Count != 0)
                     {
                         float timeForLect = 0;
                         int countWorkers = 0;
                         int timeForLab = 0;
                         int timeForPract = 0;
+                        foreach (var sem in item.Value)
+                            timeForLect += sem.Clock[1];
+                        foreach (var sem in item.Value)
+                            timeForPract += (int)sem.Clock[3];
+                        foreach (var sem in item.Value)
+                            timeForLab += (int)sem.Clock[2];
                         foreach (var employee in employes4thissub)
                         {
                             countWorkers++;
+                            Employee employee1 = employee.Employee;
+                            EmpAndHours empAndHoursRes = new EmpAndHours();
                             Employee Employee123 = db.Employees.Where(e => e.ID == employee.ID_employee).Where(m => (m.Position == "Профессор" || m.Position == "Доцент") && m.WorkingTime >0).SingleOrDefault();
                             //Single.TryParse(Employee.ToString(), out time);
+                            
+                                
 
+                           
 
-
-                            if (Employee123 != null)
+                            if (employee1 != null   && (employee1.Position == "Профессор" || employee1.Position == "Доцент") && employee1.WorkingTime>0 )
                             {
+                                if (timeForLab == 0 && timeForLect == 0 && timeForPract == 0)
+                                    break;
                                 empAndHoursRes.subject = item.Key;
-                                empAndHoursRes.EmpName = Employee123.Name;
+                                empAndHoursRes.EmpName = employee1.Name;
 
-                                foreach (var sem in item.Value)
-                                    timeForLect += sem.Clock[1];
-
-                                if (timeForLect > Employee123.WorkingTime)
+                                if (timeForLect > employee1.WorkingTime)
                                 {
-
-                                    timeForLect -= (int)Employee123.WorkingTime;
-                                    empAndHoursRes.hoursForLect = (int)Employee123.WorkingTime;
-                                    Employee123.WorkingTime = 0;
-                                    db.Entry(Employee123).State = EntityState.Modified;
-                                    db.SaveChanges();
-                                    empAndHours.Add(empAndHoursRes);
-
-
+                                    timeForLect -= (int)employee1.WorkingTime;
+                                    empAndHoursRes.hoursForLect = (int)employee1.WorkingTime;
+                                    employee1.WorkingTime = 0;
                                 }
                                 else
                                 {
                                     empAndHoursRes.hoursForLect = (int)timeForLect;
-                                    Employee123.WorkingTime -= (int)timeForLect;
+                                    employee1.WorkingTime -= (int)timeForLect;
+                                    timeForLect = 0;
 
-                                    foreach (var sem in item.Value)
-                                        timeForPract += (int)sem.Clock[3];
-
-                                    if (timeForPract > Employee123.WorkingTime)
+                                    if (timeForPract > employee1.WorkingTime)
                                     {
-                                        timeForPract -= (int)Employee123.WorkingTime;
-                                        empAndHoursRes.hoursForPractice = (int)Employee123.WorkingTime;
-                                        Employee123.WorkingTime = 0;
-                                        db.Entry(Employee123).State = EntityState.Modified;
-                                        db.SaveChanges();
-                                        empAndHours.Add(empAndHoursRes);
+                                        timeForPract -= (int)employee1.WorkingTime;
+                                        empAndHoursRes.hoursForPractice = (int)employee1.WorkingTime;
+                                        employee1.WorkingTime = 0;
                                     }
                                     else
                                     {
-                                        Employee123.WorkingTime -= timeForPract;
+                                        employee1.WorkingTime -= timeForPract;
                                         empAndHoursRes.hoursForPractice = timeForPract;
+                                        timeForPract = 0;
 
-                                        foreach (var sem in item.Value)
-                                            timeForLab += (int)sem.Clock[2];
-                                        if (timeForLab > Employee123.WorkingTime)
+                                        if (timeForLab > employee1.WorkingTime)
                                         {
-                                            timeForLab -= (int)Employee123.WorkingTime;
-                                            empAndHoursRes.hoursForLab = (int)Employee123.WorkingTime;
-                                            Employee123.WorkingTime = 0;
-                                            db.Entry(Employee123).State = EntityState.Modified;
-                                            db.SaveChanges();
-                                            empAndHours.Add(empAndHoursRes);
-                                            
-
+                                            timeForLab -= (int)employee1.WorkingTime;
+                                            empAndHoursRes.hoursForLab = (int)employee1.WorkingTime;
+                                            employee1.WorkingTime = 0;
                                         }
                                         else
                                         {
-
-                                            Employee123.WorkingTime -= timeForLab;
+                                            employee1.WorkingTime -= timeForLab;
                                             empAndHoursRes.hoursForLab = timeForLab;
-                                            empAndHours.Add(empAndHoursRes);
-                                            db.Entry(Employee123).State = EntityState.Modified;
-                                            db.SaveChanges();
-
-
+                                            timeForLab = 0;
                                         }
 
                                     }
@@ -414,70 +400,82 @@ namespace Site22.Controllers
                                     db.SaveChanges();*/
                                 }
 
-
+                                db.Entry(employee1).State = EntityState.Modified;
+                                db.SaveChanges();
+                                empAndHours.Add(empAndHoursRes);
                             }
-                            else
+                            else if ( employee1.WorkingTime > 0)
                             {
-                                Employee Employee12 = db.Employees.Where(e => e.ID == employee.ID_employee).Where(m => m.WorkingTime > 0).SingleOrDefault();
-                                
-                                if (Employee12 == null)
-                                {
-                                    ViewBag.Bad += employes4thissub.Select(m => m.Name).SingleOrDefault().ToString() + " - не нашлось преподавателя"  + "\n";
+                                if (timeForLab == 0 && timeForPract == 0)
                                     break;
-                                }
+                                Employee Employee12 = db.Employees.Where(e => e.ID == employee.ID_employee).Where(m => m.WorkingTime > 0).SingleOrDefault();
+                                                               /*if (Employee12 == null)
+                                {
+                                    var temp = employee.Name;
+                                    String error1 = (temp.ToString() + " - не нашлось свободного ? преподавателя");
+                                    Errors.Add(error1);
+                                    //ViewBag.Bad += employes4thissub.Select(m => m.Name).SingleOrDefault().ToString() + " - не нашлось преподавателя"  + "\n";
+                                    break;
+                                }*/
                                 
                                 empAndHoursRes.subject = item.Key;
-                                empAndHoursRes.EmpName = Employee12.Name;
-                                foreach (var sem in item.Value)
-                                    timeForPract += (int)sem.Clock[3];
+                                empAndHoursRes.EmpName = employee1.Name;
+                                
 
-                                if (timeForPract > Employee12.WorkingTime)
+                                if (timeForPract > employee1.WorkingTime)
                                 {
-                                    timeForPract -= (int)Employee12.WorkingTime;
-                                    empAndHoursRes.hoursForPractice = (int)Employee12.WorkingTime;
-                                    Employee12.WorkingTime = 0;
-                                    db.Entry(Employee12).State = EntityState.Modified;
-                                    db.SaveChanges();
-                                    empAndHours.Add(empAndHoursRes);
+                                    timeForPract -= (int)employee1.WorkingTime;
+                                    empAndHoursRes.hoursForPractice = (int)employee1.WorkingTime;
+                                    employee1.WorkingTime = 0;
+                                 
                                 }
                                 else
                                 {
-                                    Employee12.WorkingTime -= timeForPract;
+                                    employee1.WorkingTime -= timeForPract;
                                     empAndHoursRes.hoursForPractice = timeForPract;
-
-                                    foreach (var sem in item.Value)
-                                        timeForLab += (int)sem.Clock[2];
-                                    if (timeForLab > Employee12.WorkingTime)
+                                    timeForPract = 0;
+                                    
+                                    if (timeForLab > employee1.WorkingTime)
                                     {
-                                        timeForLab -= (int)Employee12.WorkingTime;
-                                        empAndHoursRes.hoursForLab = (int)Employee12.WorkingTime;
-                                        Employee12.WorkingTime = 0;
-                                        db.Entry(Employee12).State = EntityState.Modified;
-                                        db.SaveChanges();
-                                        empAndHours.Add(empAndHoursRes);
+                                        timeForLab -= (int)employee1.WorkingTime;
+                                        empAndHoursRes.hoursForLab = (int)employee1.WorkingTime;
+                                        employee1.WorkingTime = 0;
+                                      
                                         
 
                                     }
                                     else
                                     {
 
-                                        Employee12.WorkingTime -= timeForLab;
+                                        employee1.WorkingTime -= timeForLab;
                                         empAndHoursRes.hoursForLab = timeForLab;
-                                        empAndHours.Add(empAndHoursRes);
-                                        db.Entry(Employee12).State = EntityState.Modified;
-                                        db.SaveChanges();
+                                        timeForLab = 0;
+                                        
 
 
                                     }
 
                                 }
+
+                                empAndHours.Add(empAndHoursRes);
+                                db.Entry(employee1).State = EntityState.Modified;
+                                db.SaveChanges();
                             }
-                            if (countWorkers == employes4thissub.Count)
-                            {
-                                ViewBag.Bad += ("Не распределен " + employes4thissub.Select(m => m.Name).SingleOrDefault().ToString() + " " + timeForLab.ToString() + " " + timeForLect.ToString() + " " + timeForPract.ToString()+ "\n" );
-                            }
+                            
 
                         }
+                        if (countWorkers == employes4thissub.Count && (timeForLect != 0 || timeForLab != 0 || timeForPract != 0))
+                        {
+                            String error = ("Не распределен " + item.Key + " " + "лаб.: " + timeForLab.ToString() + " лекц.: " + timeForLect.ToString() + " практич.: " + timeForPract.ToString());
+                            Errors.Add(error);
+                            //ViewBag.Bad += ("Не распределен " + employes4thissub.Select(m => m.Name).SingleOrDefault().ToString() + " " + timeForLab.ToString() + " " + timeForLect.ToString() + " " + timeForPract.ToString()+ "\n" );
+                        }
+                    }
+                    else
+                    {
+                            String error1 = (item.Key + " - не нашлось свободного ? преподавателя");
+                            Errors.Add(error1);
+                            //ViewBag.Bad += employes4thissub.Select(m => m.Name).SingleOrDefault().ToString() + " - не нашлось преподавателя"  + "\n";
                     }
 
                 
@@ -486,7 +484,8 @@ namespace Site22.Controllers
 
 
 
-
+                ViewBag.Bad = Errors;
+                
                     return View(empAndHours);
             }
 
