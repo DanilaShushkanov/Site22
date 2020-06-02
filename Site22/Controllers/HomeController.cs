@@ -235,7 +235,7 @@ namespace Site22.Controllers
         
 
         [HttpPost]
-        public ActionResult Import(HttpPostedFileBase fileExcel)
+        public ActionResult Import(HttpPostedFileBase fileExcel, int semCount)
         {
             using (XLWorkbook workbook = new XLWorkbook(fileExcel.InputStream, XLEventTracking.Disabled))
             {

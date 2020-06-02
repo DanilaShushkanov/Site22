@@ -12,12 +12,29 @@
     {
         <div>
             Загрузите Excel-файл:
-            <input type="file" name="fileExcel" id="fileExcel" />
-            <div>
-                <input type="submit" value="Загрузить" />
-            </div>
+            <ul>
+                <li><input class="custom-file-input" type="file" name="fileExcel" id="fileExcel"  /></li>
+                <li>
+               
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="inputGroup-sizing-default">Кол-во групп</span>
+                        </div>
+                        <input class="form-control" type="number" value="1" name="semCount" id="semCount" min="1" max="20"/>
+                    </div>
+                </li>
+                
+                <li>
+                    <div>
+                        <input class="btn btn-primary" type="submit" value="Загрузить"  />
+                    </div>
+                </li>
+            </ul>
         </div>
+
+       
     }
 </div>
+
 
 
