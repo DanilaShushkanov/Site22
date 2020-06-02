@@ -338,6 +338,7 @@ namespace Site22.Controllers
                             timeForPract += (int)sem.Clock[3];
                         foreach (var sem in item.Value)
                             timeForLab += (int)sem.Clock[2];
+                        timeForLab *= semCount;
                         foreach (var employee in employes4thissub)
                         {
                             countWorkers++;
