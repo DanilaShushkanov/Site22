@@ -1,4 +1,4 @@
-
+use Facultet2
 UPDATE Employees SET WorkingTime = 900 WHERE Position = 'Преподаватель'
 GO
 UPDATE Employees SET WorkingTime = 880 WHERE Position = 'Доцент'
