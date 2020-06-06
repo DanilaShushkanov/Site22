@@ -169,26 +169,16 @@ namespace Site22.Controllers
         }
         //вывод новостей
         [HttpGet]
-        public ActionResult News(int? ID = 1, int page = 1)
+        public ActionResult News(int page = 1)
         {
-
-            IQueryable<News> news = db.News;
-            News n = news.Where(p => p.ID == ID).FirstOrDefault();
-            List<Employee> employees = db.Employees.Where(p => p.ID == n.ID_Author).ToList();
-            Employee e = employees.FirstOrDefault();
             int pageSize = 2; // количество объектов на страницу            
-            IEnumerable<News> NewsPerPages = news.OrderByDescending(p => p.ID).Skip((page - 1) * pageSize).Take(pageSize);
-            PageInfo pageInfo = new PageInfo { PageNumber = page, PageSize = pageSize, TotalItems = news.Count() };
+            IEnumerable<News> NewsPerPages = db.News.OrderByDescending(p => p.ID).Skip((page - 1) * pageSize).Take(pageSize);
+            PageInfo pageInfo = new PageInfo { PageNumber = page, PageSize = pageSize, TotalItems = db.News.Count() };
             NewsHelp nw = new NewsHelp
             {
                 news = NewsPerPages,
-
                 PageInfo = pageInfo
-
             };
-            ViewBag.Author = e.Name;
-
-
             return View(nw);
         }
 
@@ -209,12 +199,16 @@ namespace Site22.Controllers
             int pageSize = 5; // количество объектов на страницу            
             IEnumerable<Employee> emoloyeesPerPages = employees.OrderBy(p => p.ID).Skip((page - 1) * pageSize).Take(pageSize);
             PageInfo pageInfo = new PageInfo { PageNumber = page, PageSize = pageSize, TotalItems = employees.Count() };
-
+            var postions = db.Employees.Select(m => m.Position).Distinct().ToList();
+            postions.Add("Все");
+            var dergee = db.Employees.Select(m => m.Academic_degree).Distinct().ToList();
+            dergee.Add("Все");
             FilteredWorks fw = new FilteredWorks
             {
                 Employees = emoloyeesPerPages.ToList(),
-                Positions = new SelectList(new List<string>() { "Все", "Секретарь", "Зав. кафедры", "Заместитель зав. кафедры", "Преподаватель", "Доцент" }),
-                Scien = new SelectList(new List<string>() { "Все", "Бакалавр", "Магистр", "Кандидат наук", "Доктор наук" }),
+                
+                Positions = new SelectList(postions),
+                Scien = new SelectList(dergee),
                 SelectedPosition = Position,
                 isAdmin = IsAdmin(),
                 SelectedAcadem_degree = Academ,
