@@ -18,6 +18,7 @@ using Microsoft.Owin.Security.OAuth;
 using DocumentFormat.OpenXml.Office.CustomUI;
 using DocumentFormat.OpenXml.Math;
 using DocumentFormat.OpenXml.Office2010.Excel;
+using System.IO;
 
 namespace Site22.Controllers
 {
@@ -26,6 +27,7 @@ namespace Site22.Controllers
     {
         ThemesContext db = new ThemesContext(); // Основная бд
         ApplicationDbContext db1 = new ApplicationDbContext(); // бд авторизации
+        
 
         public ActionResult Index()
         {
@@ -171,7 +173,7 @@ namespace Site22.Controllers
         [HttpGet]
         public ActionResult News(int page = 1)
         {
-            int pageSize = 2; // количество объектов на страницу            
+            int pageSize = 5; // количество объектов на страницу            
             IEnumerable<News> NewsPerPages = db.News.OrderByDescending(p => p.ID).Skip((page - 1) * pageSize).Take(pageSize);
             PageInfo pageInfo = new PageInfo { PageNumber = page, PageSize = pageSize, TotalItems = db.News.Count() };
             NewsHelp nw = new NewsHelp
@@ -196,7 +198,7 @@ namespace Site22.Controllers
             }
 
             List<Employee> teachers = db.Employees.ToList();
-            int pageSize = 5; // количество объектов на страницу            
+            int pageSize = 10; // количество объектов на страницу            
             IEnumerable<Employee> emoloyeesPerPages = employees.OrderBy(p => p.ID).Skip((page - 1) * pageSize).Take(pageSize);
             PageInfo pageInfo = new PageInfo { PageNumber = page, PageSize = pageSize, TotalItems = employees.Count() };
             var postions = db.Employees.Select(m => m.Position).Distinct().ToList();
@@ -229,7 +231,7 @@ namespace Site22.Controllers
         
 
         [HttpPost]
-        public ActionResult Import(HttpPostedFileBase fileExcel, int semCount)
+        public ActionResult Import(HttpPostedFileBase fileExcel, int semCount, List<EmpAndHours> Itemlist)
         {
             using (XLWorkbook workbook = new XLWorkbook(fileExcel.InputStream, XLEventTracking.Disabled))
             {
@@ -241,13 +243,11 @@ namespace Site22.Controllers
 
                 int semestrCount = worksheet.Row(2).CellsUsed().Count();
                 int VidyControlya = 6;
-
                 Dictionary<String, List<Semestr>> Subject = new Dictionary<string, List<Semestr>>();
                 int startPosition = 15;
-
                 foreach (IXLRow row in worksheet.RowsUsed())
                 {
-                    if (/*row.Cell(1).Value.ToString() == "+" && */row.Cell("BL").Value.ToString().Contains("0605"))
+                    if (row.Cell("BL").Value.ToString().Contains("0605"))
                     {
                         count++;
                         List<Semestr> Clocks = new List<Semestr>();
@@ -461,14 +461,14 @@ namespace Site22.Controllers
                         }
                         if (countWorkers == employes4thissub.Count && (timeForLect != 0 || timeForLab != 0 || timeForPract != 0))
                         {
-                            String error = ("Не распределен " + item.Key + " " + "лаб.: " + timeForLab.ToString() + " лекц.: " + timeForLect.ToString() + " практич.: " + timeForPract.ToString());
+                            String error = ("Не распределен педмет: " + item.Key + " " + "лаб.: " + timeForLab.ToString() + " лекц.: " + timeForLect.ToString() + " практич.: " + timeForPract.ToString());
                             Errors.Add(error);
                             //ViewBag.Bad += ("Не распределен " + employes4thissub.Select(m => m.Name).SingleOrDefault().ToString() + " " + timeForLab.ToString() + " " + timeForLect.ToString() + " " + timeForPract.ToString()+ "\n" );
                         }
                     }
                     else
                     {
-                            String error1 = (item.Key + " - не нашлось свободного ? преподавателя");
+                            String error1 = (item.Key + " - не нашлось свободного  преподавателя");
                             Errors.Add(error1);
                             //ViewBag.Bad += employes4thissub.Select(m => m.Name).SingleOrDefault().ToString() + " - не нашлось преподавателя"  + "\n";
                     }
@@ -486,6 +486,46 @@ namespace Site22.Controllers
 
             
 
+        }
+
+        public ActionResult Export(List<EmpAndHours> Itemlist)
+        {
+
+            using (XLWorkbook workbook = new XLWorkbook(XLEventTracking.Disabled))
+            {
+                var worksheet = workbook.Worksheets.Add("Нагрузка");
+
+                worksheet.Cell("A1").Value = "Преподаватель";
+                worksheet.Cell("B1").Value = "Часы";
+                worksheet.Cell("D1").Value = "Лекции";
+                worksheet.Cell("F1").Value = "Практика";
+                worksheet.Cell("H1").Value = "Лабораторные";
+                worksheet.Row(1).Style.Font.Bold = true;
+               
+
+                //нумерация строк/столбцов начинается с индекса 1 (не 0)
+                for (int i = 0; i < Itemlist.Count; i++)
+                {
+                    worksheet.Cell(i + 2, 1).Value = Itemlist[i].EmpName;
+                    worksheet.Cell(i + 2, 2).Value = Itemlist[i].subject ;
+                    worksheet.Cell(i + 2, 4).Value = Itemlist[i].hoursForLect;
+                    worksheet.Cell(i + 2, 6).Value = Itemlist[i].hoursForPractice;
+                    worksheet.Cell(i + 2, 8).Value = Itemlist[i].hoursForLab;
+                    worksheet.Row(i + 2).AdjustToContents();
+                }
+               
+                using (var stream = new MemoryStream())
+                {
+                    workbook.SaveAs(stream);
+                    stream.Flush();
+
+                    return new FileContentResult(stream.ToArray(),
+                        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+                    {
+                        FileDownloadName = $"план_от{DateTime.UtcNow.ToShortDateString()}.xlsx"
+                    };
+                }
+            }
         }
 
         //вспомогательная функция

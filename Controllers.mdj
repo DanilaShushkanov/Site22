@@ -403,9 +403,9 @@
 														"$ref": "AAAAAAFyfyeBZlA/5Zo="
 													},
 													"font": "Arial;13;0",
-													"left": 78.97900390625,
+													"left": 74.58642578125,
 													"top": 10,
-													"width": 147.6689453125,
+													"width": 136.7509765625,
 													"height": 13,
 													"text": "CommunicationDiagram1"
 												},
@@ -418,7 +418,7 @@
 													"font": "Arial;13;1",
 													"left": 13,
 													"top": 10,
-													"width": 60.97900390625,
+													"width": 56.58642578125,
 													"height": 13,
 													"text": "interaction"
 												}
@@ -755,7 +755,7 @@
 											"font": "Arial;13;1",
 											"left": 301,
 											"top": 87,
-											"width": 319,
+											"width": 332.01416015625,
 											"height": 13,
 											"text": "EmployeeController"
 										},
@@ -790,7 +790,7 @@
 									"font": "Arial;13;0",
 									"left": 296,
 									"top": 80,
-									"width": 329,
+									"width": 342.01416015625,
 									"height": 25,
 									"stereotypeLabel": {
 										"$ref": "AAAAAAFyf2it41EFH9k="
@@ -817,7 +817,7 @@
 									"font": "Arial;13;0",
 									"left": 296,
 									"top": 105,
-									"width": 329,
+									"width": 342.01416015625,
 									"height": 10
 								},
 								{
@@ -839,10 +839,11 @@
 											"model": {
 												"$ref": "AAAAAAFyf2j2dlEtHro="
 											},
+											"visible": false,
 											"font": "Arial;13;0",
 											"left": 301,
 											"top": 120,
-											"width": 319,
+											"width": 332.01416015625,
 											"height": 13,
 											"text": "+ShowEmployees()",
 											"horizontalAlignment": 0
@@ -858,10 +859,10 @@
 											},
 											"font": "Arial;13;0",
 											"left": 301,
-											"top": 135,
-											"width": 319,
+											"top": 122,
+											"width": 332.01416015625,
 											"height": 13,
-											"text": "+AboutEmployee(int ID)",
+											"text": "+AboutEmployee(int ID): Employee employee",
 											"horizontalAlignment": 0
 										},
 										{
@@ -875,8 +876,8 @@
 											},
 											"font": "Arial;13;0",
 											"left": 301,
-											"top": 150,
-											"width": 319,
+											"top": 137,
+											"width": 332.01416015625,
 											"height": 13,
 											"text": "+DeleteEmployee(int ID)",
 											"horizontalAlignment": 0
@@ -892,10 +893,10 @@
 											},
 											"font": "Arial;13;0",
 											"left": 301,
-											"top": 165,
-											"width": 319,
+											"top": 152,
+											"width": 332.01416015625,
 											"height": 13,
-											"text": "+EditEmployee(int ID)",
+											"text": "+EditInfo(Employee employee)",
 											"horizontalAlignment": 0
 										},
 										{
@@ -909,18 +910,35 @@
 											},
 											"font": "Arial;13;0",
 											"left": 301,
-											"top": 180,
-											"width": 319,
+											"top": 167,
+											"width": 332.01416015625,
 											"height": 13,
-											"text": "+CreateEmployee()",
+											"text": "+CreateEmployee(Employee employee)",
+											"horizontalAlignment": 0
+										},
+										{
+											"_type": "UMLOperationView",
+											"_id": "AAAAAAFyipVpBBXFVB0=",
+											"_parent": {
+												"$ref": "AAAAAAFyf2it41EKY9Y="
+											},
+											"model": {
+												"$ref": "AAAAAAFyipVo2xXCEgk="
+											},
+											"font": "Arial;13;0",
+											"left": 301,
+											"top": 182,
+											"width": 332.01416015625,
+											"height": 13,
+											"text": "+FilteredBrowse(String Dergree, String Position, int page)",
 											"horizontalAlignment": 0
 										}
 									],
 									"font": "Arial;13;0",
 									"left": 296,
 									"top": 115,
-									"width": 329,
-									"height": 83
+									"width": 342.01416015625,
+									"height": 85
 								},
 								{
 									"_type": "UMLReceptionCompartmentView",
@@ -959,8 +977,8 @@
 							"containerChangeable": true,
 							"left": 296,
 							"top": 80,
-							"width": 329,
-							"height": 121,
+							"width": 342.01416015625,
+							"height": 137,
 							"nameCompartment": {
 								"$ref": "AAAAAAFyf2it41EEzBs="
 							},
@@ -1124,7 +1142,24 @@
 											"top": 279,
 											"width": 319,
 											"height": 13,
-											"text": "+LoadDistribute()",
+											"text": "+Import(int semestrCount)",
+											"horizontalAlignment": 0
+										},
+										{
+											"_type": "UMLOperationView",
+											"_id": "AAAAAAFym2K8u3R2GtI=",
+											"_parent": {
+												"$ref": "AAAAAAFyf3oGnFFsnRM="
+											},
+											"model": {
+												"$ref": "AAAAAAFym2K8tHRznfw="
+											},
+											"font": "Arial;13;0",
+											"left": 301,
+											"top": 294,
+											"width": 319,
+											"height": 13,
+											"text": "+Export(EmpAndHours plan): xls Document",
 											"horizontalAlignment": 0
 										}
 									],
@@ -1132,7 +1167,7 @@
 									"left": 296,
 									"top": 259,
 									"width": 329,
-									"height": 38
+									"height": 53
 								},
 								{
 									"_type": "UMLReceptionCompartmentView",
@@ -1551,6 +1586,15 @@
 									},
 									"name": "int ID",
 									"type": ""
+								},
+								{
+									"_type": "UMLParameter",
+									"_id": "AAAAAAFyjx2o1N29gk4=",
+									"_parent": {
+										"$ref": "AAAAAAFyf2wdflE0s60="
+									},
+									"type": "Employee employee",
+									"direction": "return"
 								}
 							]
 						},
@@ -1579,7 +1623,7 @@
 							"_parent": {
 								"$ref": "AAAAAAFyf2it41EBbFI="
 							},
-							"name": "EditEmployee",
+							"name": "EditInfo",
 							"parameters": [
 								{
 									"_type": "UMLParameter",
@@ -1587,7 +1631,7 @@
 									"_parent": {
 										"$ref": "AAAAAAFyf2z7o1FMCsY="
 									},
-									"name": "int ID",
+									"name": "Employee employee",
 									"type": ""
 								}
 							]
@@ -1598,7 +1642,55 @@
 							"_parent": {
 								"$ref": "AAAAAAFyf2it41EBbFI="
 							},
-							"name": "CreateEmployee"
+							"name": "CreateEmployee",
+							"parameters": [
+								{
+									"_type": "UMLParameter",
+									"_id": "AAAAAAFyjx1sYN26lqc=",
+									"_parent": {
+										"$ref": "AAAAAAFyf3YHs1Fb30U="
+									},
+									"name": "Employee employee",
+									"type": ""
+								}
+							]
+						},
+						{
+							"_type": "UMLOperation",
+							"_id": "AAAAAAFyipVo2xXCEgk=",
+							"_parent": {
+								"$ref": "AAAAAAFyf2it41EBbFI="
+							},
+							"name": "FilteredBrowse",
+							"parameters": [
+								{
+									"_type": "UMLParameter",
+									"_id": "AAAAAAFyipYrrRXJ6pY=",
+									"_parent": {
+										"$ref": "AAAAAAFyipVo2xXCEgk="
+									},
+									"name": "String Dergree",
+									"type": ""
+								},
+								{
+									"_type": "UMLParameter",
+									"_id": "AAAAAAFyipYrrRXKck4=",
+									"_parent": {
+										"$ref": "AAAAAAFyipVo2xXCEgk="
+									},
+									"name": "String Position",
+									"type": ""
+								},
+								{
+									"_type": "UMLParameter",
+									"_id": "AAAAAAFyipYrrRXLWtI=",
+									"_parent": {
+										"$ref": "AAAAAAFyipVo2xXCEgk="
+									},
+									"name": "int page",
+									"type": ""
+								}
+							]
 						}
 					]
 				},
@@ -1624,7 +1716,46 @@
 							"_parent": {
 								"$ref": "AAAAAAFyf3oGnFFjT3I="
 							},
-							"name": "LoadDistribute"
+							"name": "Import",
+							"parameters": [
+								{
+									"_type": "UMLParameter",
+									"_id": "AAAAAAFym2KiD3Rx1Ag=",
+									"_parent": {
+										"$ref": "AAAAAAFyf3qnQVGUb5c="
+									},
+									"name": "int semestrCount",
+									"type": ""
+								}
+							]
+						},
+						{
+							"_type": "UMLOperation",
+							"_id": "AAAAAAFym2K8tHRznfw=",
+							"_parent": {
+								"$ref": "AAAAAAFyf3oGnFFjT3I="
+							},
+							"name": "Export",
+							"parameters": [
+								{
+									"_type": "UMLParameter",
+									"_id": "AAAAAAFym2NdnnR67X0=",
+									"_parent": {
+										"$ref": "AAAAAAFym2K8tHRznfw="
+									},
+									"name": "EmpAndHours plan",
+									"type": ""
+								},
+								{
+									"_type": "UMLParameter",
+									"_id": "AAAAAAFym2NdnnR73mo=",
+									"_parent": {
+										"$ref": "AAAAAAFym2K8tHRznfw="
+									},
+									"type": "xls Document",
+									"direction": "return"
+								}
+							]
 						}
 					]
 				},

@@ -1,4 +1,6 @@
-﻿@using Site22.Models;
+﻿
+@using Site22.Models;
+@model List<EmpAndHours>
 @{
     string strTitle = "Таблицы с результатом";
     ViewBag.Title = strTitle;
@@ -8,37 +10,42 @@
 <h2>@strTitle</h2>
 
 
+    @using (Html.BeginForm("Export", "Home", FormMethod.Post, new { enctype = "multipart/form-data", id = "frm-excel" }))
+    {
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">Имя</th>
+                    <th scope="col">Предмет</th>
+                    <th scope="col">Часы</th>
+                </tr>
+            </thead>
+            <tbody>
+                @for (int i = 0; i < Model.Count; i++)
+                {
+                    <tr>
 
 
-<table class="table">
-    <thead>
-        <tr>
-            <th scope="col">Имя</th>
-            <th scope="col">Предмет</th>
-            <th scope="col">Часы</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
+                        <td> @Html.TextBoxFor(m => m[i].EmpName,  new { @class="form-control"}) </td>
 
-                <td>@item.EmpName;</td>
-                <td>@item.subject;</td>
-                <td>
-                    Часы Лекций
-                    <input type="number" class="form-control" size="80" width="80" id="pwd" value="@item.hoursForLect">
-                    Часы практики
-                    <input type="number" class="form-control" size="80" width="80" id="pwd" value="@item.hoursForPractice">
-                    Часы лаб
-                    <input type="number" class="form-control" size="80" width="80" id="pwd" value="@item.hoursForLab"> 
-                </td>
+                        <td>@Html.TextBoxFor(m => m[i].subject,  new { @class = "form-control" })</td>
 
-            </tr>
-        }
-    </tbody>
-</table>
+                        <td>
+                            Часы лекций
+                            <br /> @Html.EditorFor(m => m[i].hoursForLect, new { @class = "form-control" })
+                            <br />Часы практики
+                            <br /> @Html.EditorFor(m => m[i].hoursForPractice, new { @class = "form-control" })
+                            <br /> Часы лабораторных
+                            <br />   @Html.EditorFor(m => m[i].hoursForLab, new { @class = "form-control" })
+                        </td>
 
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <input class="btn btn-primary" type="submit" value="Сохранить" />
+
+    }
 <table class="table">
     <thead>
         <tr>
@@ -56,7 +63,5 @@
         }
     </tbody>
 </table>
-
-
 
 

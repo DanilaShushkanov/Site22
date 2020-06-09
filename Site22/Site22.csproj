@@ -321,6 +321,7 @@
     <Content Include="Views\Home\News.cshtml" />
     <Content Include="Views\Home\DownloadFile.cshtml" />
     <Content Include="Views\Home\Import.cshtml" />
+    <Content Include="Views\Home\Export.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
