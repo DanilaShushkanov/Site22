@@ -32,7 +32,7 @@
 
                         <td>
                             Часы лекций
-                            <br /> @Html.EditorFor(m => m[i].hoursForLect, new { @class = "form-control" })
+                            <br /> @Html.EditorFor(m => m[i].hoursForLect, new { @class = "form-control" , @type ="number", @min ="1", @max = "800"})
                             <br />Часы практики
                             <br /> @Html.EditorFor(m => m[i].hoursForPractice, new { @class = "form-control" })
                             <br /> Часы лабораторных
